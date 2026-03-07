@@ -1,85 +1,62 @@
+/**
+ * lib/content.js
+ *
+ * The ONLY file that touches the filesystem.
+ * Every page imports from here — never reads files directly.
+ *
+ * Key idea: this runs at BUILD TIME only (getStaticProps / getStaticPaths).
+ * Users never hit the filesystem. They get pre-built HTML from the CDN.
+ */
+
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 
-const CONTENT_DIR = path.join(process.cwd(), 'content/series')
+const SERIES_DIR = path.join(process.cwd(), 'content/series')
 
+// ─────────────────────────────────────────────
+// Get all series slugs  (used by getStaticPaths)
+// ─────────────────────────────────────────────
 export function getAllSeriesSlugs() {
-  if (!fs.existsSync(CONTENT_DIR)) return []
-  return fs.readdirSync(CONTENT_DIR).filter(name => {
-    return fs.statSync(path.join(CONTENT_DIR, name)).isDirectory()
+  return fs.readdirSync(SERIES_DIR).filter((name) => {
+    return fs.statSync(path.join(SERIES_DIR, name)).isDirectory()
   })
 }
 
+// ─────────────────────────────────────────────
+// Get one series + its chapters
+// ─────────────────────────────────────────────
 export function getSeries(slug) {
-  const filePath = path.join(CONTENT_DIR, slug, 'index.md')
-  if (!fs.existsSync(filePath)) return null
-  const { data } = matter(fs.readFileSync(filePath, 'utf8'))
+  const indexPath = path.join(SERIES_DIR, slug, 'index.md')
+  const raw = fs.readFileSync(indexPath, 'utf8')
+  const { data } = matter(raw)
+
+  // Sort chapters ascending by num
   const chapters = (data.chapters || []).sort((a, b) => a.num - b.num)
-  return { ...data, slug, chapters }
+
+  return {
+    ...data,
+    slug,
+    chapters,
+  }
 }
 
+// ─────────────────────────────────────────────
+// Get ALL series (for homepage grid / latest)
+// ─────────────────────────────────────────────
 export function getAllSeries() {
-  return getAllSeriesSlugs()
-    .map(slug => getSeries(slug))
-    .filter(Boolean)
-    .sort((a, b) => {
-      const aLast = a.chapters.at(-1)?.date || ''
-      const bLast = b.chapters.at(-1)?.date || ''
-      return bLast.localeCompare(aLast)
-    })
+  const slugs = getAllSeriesSlugs()
+  return slugs.map((slug) => getSeries(slug))
 }
 
-export function getLatestUpdates(limit = 12) {
-  const updates = []
-  for (const series of getAllSeries()) {
-    const latestCh = series.chapters.at(-1)
-    if (!latestCh) continue
-    updates.push({
-      seriesTitle: series.title,
-      seriesSlug: series.slug,
-      cover: series.cover || null,
-      chapterNum: latestCh.num,
-      chapterTitle: latestCh.title || '',
-      date: latestCh.date,
-    })
-  }
-  return updates
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
-    .slice(0, limit)
-}
-
-export function getChapter(slug, chapterNum) {
-  const series = getSeries(slug)
-  if (!series) return null
-
-  const chapter = series.chapters.find(ch => ch.num === Number(chapterNum))
-  if (!chapter) return null
-
-  const sorted = series.chapters
-  const idx = sorted.findIndex(ch => ch.num === Number(chapterNum))
-  const prev = idx > 0 ? sorted[idx - 1] : null
-  const next = idx < sorted.length - 1 ? sorted[idx + 1] : null
-
-  const padded = String(chapterNum).padStart(2, '0')
-  const imageDir = path.join(process.cwd(), 'public', 'images', slug, `ch${padded}`)
-
-  let images = []
-  if (fs.existsSync(imageDir)) {
-    images = fs.readdirSync(imageDir)
-      .filter(f => /\.(jpe?g|png|webp|avif)$/i.test(f))
-      .sort()
-      .map(f => `/images/${slug}/ch${padded}/${f}`)
-  }
-
-  return { series, chapter, images, prev, next }
-}
-
+// ─────────────────────────────────────────────
+// Get all chapter paths for getStaticPaths
+// ─────────────────────────────────────────────
 export function getAllChapterPaths() {
+  const slugs = getAllSeriesSlugs()
   const paths = []
-  for (const slug of getAllSeriesSlugs()) {
+  for (const slug of slugs) {
     const series = getSeries(slug)
-    if (!series) continue
     for (const ch of series.chapters) {
       paths.push({ params: { slug, chapterNum: String(ch.num) } })
     }
@@ -87,20 +64,113 @@ export function getAllChapterPaths() {
   return paths
 }
 
-export function formatDate(dateStr) {
-  if (!dateStr) return ''
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    year: 'numeric', month: 'short', day: 'numeric'
-  })
+// ─────────────────────────────────────────────
+// Get a single chapter with all data needed by the reader
+// ─────────────────────────────────────────────
+export function getChapter(slug, chapterNum) {
+  const series = getSeries(slug)
+  const num = Number(chapterNum)
+  const chapter = series.chapters.find(c => c.num === num)
+  if (!chapter) return null
+  const images = getChapterPages(slug, num)
+  const idx = series.chapters.findIndex(c => c.num === num)
+  const prev = idx > 0 ? series.chapters[idx - 1] : null
+  const next = idx < series.chapters.length - 1 ? series.chapters[idx + 1] : null
+  return { series, chapter, images, prev, next }
 }
 
-export function timeAgo(dateStr) {
+// ─────────────────────────────────────────────
+// Format date helper
+// ─────────────────────────────────────────────
+export function formatDate(dateStr) {
   if (!dateStr) return ''
+  return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+}
+
+// ─────────────────────────────────────────────
+// Get featured series for hero banner
+// ─────────────────────────────────────────────
+export function getFeaturedSeries() {
+  return getAllSeries().filter((s) => s.featured === true)
+}
+
+// ─────────────────────────────────────────────
+// Get latest updated chapters across all series
+// Returns array of { seriesTitle, seriesSlug, cover, num, title, date }
+// ─────────────────────────────────────────────
+export function getLatestChapters(limit = 12) {
+  const all = getAllSeries()
+
+  const flat = all.flatMap((s) =>
+    (s.chapters || []).map((ch) => ({
+      seriesTitle: s.title,
+      seriesSlug: s.slug,
+      cover: s.cover,
+      genres: s.genres || [],
+      num: ch.num,
+      title: ch.title,
+      date: ch.date,
+    }))
+  )
+
+  // Keep only the latest chapter per series, then sort by date descending
+  const latestPerSeries = Object.values(
+    flat.reduce((acc, ch) => {
+      if (!acc[ch.seriesSlug] || new Date(ch.date) > new Date(acc[ch.seriesSlug].date)) {
+        acc[ch.seriesSlug] = ch
+      }
+      return acc
+    }, {})
+  )
+
+  return latestPerSeries
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, limit)
+}
+
+// ─────────────────────────────────────────────
+// Get one chapter's page image list
+// Images must be named: 001.jpg, 002.jpg ... in
+// public/images/[slug]/ch[num padded]/
+// e.g.  public/images/overpowered-hero/ch01/001.jpg
+// ─────────────────────────────────────────────
+export function getChapterPages(slug, num) {
+  const paddedNum = String(num).padStart(2, '0')
+  const dir = path.join(process.cwd(), 'public', 'images', slug, `ch${paddedNum}`)
+
+  if (!fs.existsSync(dir)) return []
+
+  return fs
+    .readdirSync(dir)
+    .filter((f) => /\.(jpe?g|png|webp)$/i.test(f))
+    .sort()
+    .map((filename) => `/images/${slug}/ch${paddedNum}/${filename}`)
+}
+
+// ─────────────────────────────────────────────
+// Helper: get prev/next chapter numbers for a series
+// ─────────────────────────────────────────────
+export function getAdjacentChapters(slug, currentNum) {
+  const series = getSeries(slug)
+  const nums = series.chapters.map((c) => c.num)
+  const idx = nums.indexOf(Number(currentNum))
+  return {
+    prev: idx > 0 ? nums[idx - 1] : null,
+    next: idx < nums.length - 1 ? nums[idx + 1] : null,
+  }
+}
+
+// ─────────────────────────────────────────────
+// Relative time helper  ("2 hours ago", "Yesterday")
+// ─────────────────────────────────────────────
+export function timeAgo(dateStr) {
   const diff = Date.now() - new Date(dateStr).getTime()
-  const hours = Math.floor(diff / 3600000)
-  const days = Math.floor(diff / 86400000)
-  if (hours < 1) return 'Just now'
-  if (hours < 24) return `${hours}h ago`
-  if (days < 7) return `${days}d ago`
-  return formatDate(dateStr)
+  const mins = Math.floor(diff / 60000)
+  if (mins < 60) return `${mins}m ago`
+  const hrs = Math.floor(mins / 60)
+  if (hrs < 24) return `${hrs}h ago`
+  const days = Math.floor(hrs / 24)
+  if (days === 1) return 'Yesterday'
+  if (days < 7) return `${days} days ago`
+  return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 }

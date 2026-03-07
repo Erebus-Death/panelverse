@@ -2,9 +2,9 @@ import Head from 'next/head'
 import Link from 'next/link'
 import HeroBanner from '../components/HeroBanner'
 import SeriesCard from '../components/SeriesCard'
-import { getAllSeries, getLatestUpdates, timeAgo } from '../lib/content'
+import { getAllSeries, getLatestChapters, getFeaturedSeries, timeAgo } from '../lib/content'
 
-export default function Home({ allSeries, latestUpdates, featuredSeries }) {
+export default function Home({ allSeries, latestChapters, featuredSeries }) {
   return (
     <>
       <Head>
@@ -12,7 +12,6 @@ export default function Home({ allSeries, latestUpdates, featuredSeries }) {
         <meta name="description" content="Read manga and manhwa online for free." />
       </Head>
 
-      {/* Hero banner — only shows if you have featured series */}
       {featuredSeries.length > 0 && <HeroBanner series={featuredSeries} />}
 
       <div className="container">
@@ -23,36 +22,40 @@ export default function Home({ allSeries, latestUpdates, featuredSeries }) {
             <Link href="/latest" className="view-all">View All →</Link>
           </div>
           <div className="updates-grid">
-            {latestUpdates.map((u, i) => (
-              <Link
-                key={`${u.seriesSlug}-${u.chapterNum}`}
-                href={`/series/${u.seriesSlug}/chapter/${u.chapterNum}`}
-                className="update-row"
-              >
-                {u.cover ? (
-                  <img src={u.cover} alt={u.seriesTitle}
-                    style={{width:'36px',height:'50px',borderRadius:'3px',objectFit:'cover',flexShrink:0}} />
-                ) : (
-                  <div style={{
-                    width:'36px',height:'50px',borderRadius:'3px',flexShrink:0,
-                    background:'var(--surface2)',display:'flex',alignItems:'center',
-                    justifyContent:'center',fontSize:'10px',fontWeight:700,color:'rgba(255,255,255,.35)',
-                  }}>
-                    {u.seriesTitle.slice(0,2).toUpperCase()}
-                  </div>
-                )}
+            {latestChapters.map((ch) => (
+              <div key={`${ch.seriesSlug}-${ch.num}`} className="update-row">
+                <Link href={`/series/${ch.seriesSlug}`} style={{ flexShrink:0 }}>
+                  {ch.cover ? (
+                    <img src={ch.cover} alt={ch.seriesTitle}
+                      style={{ width:'80px', height:'112px', borderRadius:'6px', objectFit:'cover', display:'block' }} />
+                  ) : (
+                    <div style={{
+                      width:'80px', height:'112px', borderRadius:'6px',
+                      background:'var(--surface2)', display:'flex', alignItems:'center',
+                      justifyContent:'center', fontSize:'10px', fontWeight:700, color:'rgba(255,255,255,.35)',
+                    }}>
+                      {ch.seriesTitle.slice(0,2).toUpperCase()}
+                    </div>
+                  )}
+                </Link>
                 <div className="ur-info">
-                  <div className="ur-title">{u.seriesTitle}</div>
-                  <div className="ur-ch">Chapter {u.chapterNum}{u.chapterTitle ? ` — ${u.chapterTitle}` : ''}</div>
+                  <div className="ur-title">
+                    <Link href={`/series/${ch.seriesSlug}`} style={{ textDecoration:'none', color:'var(--text)' }}>
+                      {ch.seriesTitle}
+                    </Link>
+                    <Link href={`/series/${ch.seriesSlug}/chapter/${ch.num}`} style={{ textDecoration:'none', color:'var(--accent)', fontWeight:500, fontSize:'14px' }}>
+                      Chapter {ch.num}{ch.title ? ` — ${ch.title}` : ''}
+                    </Link>
+                  </div>
                   <div className="ur-meta">
-                    {i < 2 && <span className="badge-new">New</span>}
-                    <span>{timeAgo(u.date)}</span>
+                    {isRecent(ch.date) && <span className="badge-new">New</span>}
+                    <span>{timeAgo(ch.date)}</span>
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
-            {latestUpdates.length === 0 && (
-              <div style={{color:'var(--muted)',padding:'24px',gridColumn:'1/-1'}}>No chapters yet.</div>
+            {latestChapters.length === 0 && (
+              <div style={{ color:'var(--muted)', padding:'24px', gridColumn:'1/-1' }}>No chapters yet.</div>
             )}
           </div>
         </div>
@@ -67,7 +70,7 @@ export default function Home({ allSeries, latestUpdates, featuredSeries }) {
               {allSeries.map(s => <SeriesCard key={s.slug} series={s} />)}
             </div>
           ) : (
-            <div style={{color:'var(--muted)',padding:'24px'}}>No series added yet.</div>
+            <div style={{ color:'var(--muted)', padding:'24px' }}>No series added yet.</div>
           )}
         </div>
 
@@ -78,7 +81,11 @@ export default function Home({ allSeries, latestUpdates, featuredSeries }) {
 
 export async function getStaticProps() {
   const allSeries = getAllSeries()
-  const latestUpdates = getLatestUpdates(8)
-  const featuredSeries = allSeries.filter(s => s.featured).slice(0, 8)
-  return { props: { allSeries, latestUpdates, featuredSeries } }
+  const latestChapters = getLatestChapters(12)
+  const featuredSeries = getFeaturedSeries()
+  return { props: { allSeries, latestChapters, featuredSeries } }
+}
+
+function isRecent(dateStr) {
+  return Date.now() - new Date(dateStr).getTime() < 3 * 24 * 60 * 60 * 1000
 }
