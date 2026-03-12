@@ -16,7 +16,7 @@ rating: 7.4
 reviewCount: 156
 views: "890K"
 featured: true
-cover: "/covers/devourer-please-act-like-final-boss.jpg"
+cover: "/covers/devourer-please-act-like-final-boss.webp"
 description: "The Primordial Core is the most dangerous dungeon ever to exist—home to the strongest monster of all time, the Original Monster known as Devourer. But this legendary final boss has one fatal flaw: he's an incredibly lazy boss who just wants to sleep all day. While his devoted homunculus maid Renee obsessively cares for him and the skeleton Patrick desperately tries to maintain some order, chaos reigns. Can this dysfunctional dungeon crew survive when adventurers come knocking?"
 chapters:
   - num: 0

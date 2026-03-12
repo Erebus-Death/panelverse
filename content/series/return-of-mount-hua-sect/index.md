@@ -15,7 +15,7 @@ rating: 9.0
 reviewCount: 4800
 views: "5.9M"
 featured: true
-cover: "/covers/return-of-mount-hua-sect.jpg"
+cover: "/covers/return-of-mount-hua-sect.webp"
 description: "The greatest swordsman of the Mount Hua Sect, Chung Myung, died fighting the Demon Cult leader. 100 years later he reincarnates as a child — and finds his beloved sect has fallen into ruin. Time to rebuild it from scratch."
 chapters:
   - num: 1

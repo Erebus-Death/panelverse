@@ -12,7 +12,7 @@ genres:
   - Comedy
   - Fantasy
   - Manhwa
-cover: "/covers/i-was-more-overpowered-than-hero.jpg"
+cover: "/covers/i-was-more-overpowered-than-hero.webp"
 description: >
   From a young age, I've always dreamed of being that 'unassuming hero' who
   hides his true power. Now reincarnated into a fantasy world, I finally get

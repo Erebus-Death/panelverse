@@ -20,7 +20,7 @@ rating: 9.5
 reviewCount: 5200
 views: "8.7M"
 featured: true
-cover: "/covers/the-greatest-estate-developer.jpg"
+cover: "/covers/the-greatest-estate-developer.webp"
 description: "Civil engineering student Suho Kim is transported into a fantasy novel where he becomes a minor noble tasked with developing desolate lands. Armed with modern engineering knowledge and an unorthodox approach, he transforms the empire's most hopeless territory into a real estate empire—while dealing with dragons, demons, and the incredibly lazy but powerful knight Javier."
 chapters:
   - num: 1

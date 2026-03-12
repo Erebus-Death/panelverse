@@ -16,7 +16,7 @@ rating: 8.9
 reviewCount: 4500
 views: "5.8M"
 featured: true
-cover: "/covers/myst-might-mayhem.jpg"
+cover: "/covers/myst-might-mayhem.webp"
 description: "Mok Gyeong-Un, a poor miner, lives a life of hardship while searching for his missing father. After a brutal attack leaves him for dead in a mysterious cavern, he awakens with a strange new power and a burning desire for revenge against the cultists who wronged him."
 chapters:
   - num: 1
