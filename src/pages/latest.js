@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { getLatestChapters, timeAgo } from '../lib/content'
 
 function isRecent(dateStr) {
-  if (!dateStr) return false
+  if (!dateStr || typeof window === 'undefined') return false
   return (Date.now() - new Date(dateStr).getTime()) < 7 * 24 * 60 * 60 * 1000
 }
 

@@ -177,6 +177,7 @@ export function getAdjacentChapters(slug, currentNum) {
 // Relative time helper  ("2 hours ago", "Yesterday")
 // ─────────────────────────────────────────────
 export function timeAgo(dateStr) {
+  if (typeof window === 'undefined') return ''
   const diff = Date.now() - new Date(dateStr).getTime()
   const mins = Math.floor(diff / 60000)
   if (mins < 60) return `${mins}m ago`
