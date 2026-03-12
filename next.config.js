@@ -1,4 +1,9 @@
 const nextConfig = {
+  i18n: {
+    locales: ['en'],
+    defaultLocale: 'en',
+  },
+
   images: {
     remotePatterns: [
       {
@@ -10,7 +15,6 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
 
-  // Cache R2 images aggressively — they never change once uploaded
   async headers() {
     return [
       {
