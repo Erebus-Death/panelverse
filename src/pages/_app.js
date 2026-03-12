@@ -1,8 +1,8 @@
-import Head from 'next/head'
-import '../../styles/globals.css'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import { getAllSeries } from '../lib/content'
+import Head from "next/head";
+import "../../styles/globals.css";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import { getAllSeries } from "../lib/content";
 
 export default function App({ Component, pageProps, allSeries }) {
   return (
@@ -18,10 +18,31 @@ export default function App({ Component, pageProps, allSeries }) {
         <meta name="twitter:card" content="summary_large_image" />
 
         {/* Preconnect to R2 for faster image loads */}
-        <link rel="preconnect" href="https://pub-e13b23f611944371985db7aa97d5341c.r2.dev" />
+        <link
+          rel="preconnect"
+          href="https://pub-e13b23f611944371985db7aa97d5341c.r2.dev"
+        />
 
         {/* Favicon */}
         <link rel="icon" href="/favicon.ico" />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
       </Head>
 
       <Navbar allSeries={allSeries} />
@@ -30,11 +51,11 @@ export default function App({ Component, pageProps, allSeries }) {
       </main>
       <Footer />
     </>
-  )
+  );
 }
 
 // Runs once at build time — passes allSeries to every page via App
 App.getInitialProps = async () => {
-  const allSeries = getAllSeries()
-  return { allSeries }
-}
+  const allSeries = getAllSeries();
+  return { allSeries };
+};
