@@ -117,5 +117,6 @@ export async function getStaticProps() {
 }
 
 function isRecent(dateStr) {
+  if (typeof window === 'undefined') return false
   return Date.now() - new Date(dateStr).getTime() < 3 * 24 * 60 * 60 * 1000
 }
