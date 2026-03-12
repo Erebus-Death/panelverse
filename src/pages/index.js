@@ -4,12 +4,42 @@ import HeroBanner from '../components/HeroBanner'
 import SeriesCard from '../components/SeriesCard'
 import { getAllSeries, getLatestChapters, getFeaturedSeries, timeAgo } from '../lib/content'
 
+const SITE_URL = 'https://www.thepanelverse.com'
+
 export default function Home({ allSeries, latestChapters, featuredSeries }) {
   return (
     <>
       <Head>
         <title>PanelVerse — Read Manga & Manhwa Free</title>
-        <meta name="description" content="Read manga and manhwa online for free." />
+        <meta name="description" content={`Read the best manga and manhwa online for free. ${allSeries.length} series including Solo Leveling, Nano Machine, and more. New chapters added regularly.`} />
+        <link rel="canonical" href={SITE_URL} />
+
+        {/* Open Graph */}
+        <meta property="og:url" content={SITE_URL} />
+        <meta property="og:title" content="PanelVerse — Read Manga & Manhwa Free" />
+        <meta property="og:description" content={`Read the best manga and manhwa online for free. ${allSeries.length} series available. New chapters added regularly.`} />
+        <meta property="og:image" content={`${SITE_URL}/og-image.png`} />
+
+        {/* Twitter */}
+        <meta name="twitter:title" content="PanelVerse — Read Manga & Manhwa Free" />
+        <meta name="twitter:description" content={`Read the best manga and manhwa online for free. ${allSeries.length} series available.`} />
+        <meta name="twitter:image" content={`${SITE_URL}/og-image.png`} />
+
+        {/* Structured data — Sitelinks searchbox for Google */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "PanelVerse",
+            "url": SITE_URL,
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": `${SITE_URL}/search?q={search_term_string}`,
+              "query-input": "required name=search_term_string"
+            }
+          })}}
+        />
       </Head>
 
       {featuredSeries.length > 0 && <HeroBanner series={featuredSeries} />}

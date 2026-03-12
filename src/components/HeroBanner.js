@@ -210,7 +210,7 @@ export default function HeroBanner({ series }) {
         <div className="hero-content" style={{ opacity: fade ? 1 : 0, transition: 'opacity 0.25s ease' }}>
           <div className="hero-left">
             <div className="hero-type">{s.type?.toUpperCase() || 'MANHWA'}</div>
-            <h2 className="hero-title">{s.title}</h2>
+            <Link href={`/series/${s.slug}`}><h2 className="hero-title" style={{cursor:"pointer"}}>{s.title}</h2></Link>
             <div className="hero-rating-genres">
               {s.rating && (
                 <span className="hero-rating">
@@ -218,7 +218,11 @@ export default function HeroBanner({ series }) {
                   <span className="hero-rating-num">{s.rating}</span>
                 </span>
               )}
-              {s.rating && s.genres?.length > 0 && (
+              <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: '13px' }}>·</span>
+              <span className={`card-status status-${s.status}`} style={{ fontSize: '11px', padding: '2px 8px', position: 'static' }}>
+                {s.status === 'ongoing' ? 'Ongoing' : s.status === 'hiatus' ? 'Hiatus' : 'Completed'}
+              </span>
+              {s.genres?.length > 0 && (
                 <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: '13px' }}>·</span>
               )}
               {s.genres?.length > 0 && (

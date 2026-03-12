@@ -161,8 +161,9 @@ main { width: 100%; min-width: 0; overflow-x: hidden; }
   font-size: 12px; font-weight: 700; text-transform: uppercase;
   padding: 2px 6px; border-radius: 2px;
 }
-.status-ongoing   { background: var(--green); color: #061209; }
-.status-completed { background: #3b82f6; color: white; }
+.status-ongoing   { background: #3b82f6; color: white; }
+.status-completed { background: var(--green); color: #061209; }
+.status-hiatus    { background: #ef4444; color: white; }
 .card-ch {
   position: absolute; bottom: 0; left: 0; right: 0; z-index: 1;
   background: linear-gradient(transparent, rgba(0,0,0,.85));
@@ -406,12 +407,14 @@ footer {
     backdrop-filter: blur(6px);
   }
   .status-ongoing {
-    background: rgba(34,197,94,.85);
-  }
-  .status-completed {
     background: rgba(59,130,246,.85);
   }
-
+  .status-completed {
+    background: rgba(34,197,94,.85);
+  }
+  .status-hiatus {
+    background: rgba(239,68,68,.85);
+  }
   /* Genre tags — pill style */
   .card-tag {
     background: rgba(255,255,255,.07);

@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { getAllChapterPaths, getChapter, getAllSeries } from '../../../../lib/content'
 
+const SITE_URL = 'https://www.thepanelverse.com'
+
 export default function ChapterReader({ data, relatedSeries }) {
   const router = useRouter()
   const [showTop, setShowTop] = useState(false)
@@ -35,18 +37,36 @@ export default function ChapterReader({ data, relatedSeries }) {
   if (!data) return <div style={{ padding: '60px 20px', color: '#7a7f9a', textAlign: 'center' }}>Chapter not found.</div>
 
   const otherSeries = relatedSeries.filter(s => s.slug !== series.slug).slice(0, 8)
+  const pageUrl = `${SITE_URL}/series/${series.slug}/chapter/${chapter.num}`
+  const pageTitle = `${series.title} Chapter ${chapter.num}${chapter.title ? ` — ${chapter.title}` : ''}`
+  const pageDesc = `Read ${series.title} Chapter ${chapter.num} free on PanelVerse.${chapter.title ? ` ${chapter.title}.` : ''} ${images.length} pages.`
 
   return (
     <>
       <Head>
-        <title>{series.title} Ch.{chapter.num}{chapter.title ? ` — ${chapter.title}` : ''} | PanelVerse</title>
-        <meta name="description" content={`Read ${series.title} Chapter ${chapter.num} free on PanelVerse.`} />
+        <title>{pageTitle} | PanelVerse</title>
+        <meta name="description" content={pageDesc} />
+        <link rel="canonical" href={pageUrl} />
+
+        {/* Prev/Next for Google pagination */}
+        {prev && <link rel="prev" href={`${SITE_URL}/series/${series.slug}/chapter/${prev.num}`} />}
+        {next && <link rel="next" href={`${SITE_URL}/series/${series.slug}/chapter/${next.num}`} />}
+
+        {/* Open Graph */}
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDesc} />
+        {series.cover && <meta property="og:image" content={series.cover} />}
+
+        {/* Twitter */}
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDesc} />
+        {series.cover && <meta name="twitter:image" content={series.cover} />}
       </Head>
 
       <style>{`
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* Chapter select — left side like kingofshojo */
         .ch-select-wrap { display: flex; align-items: center; gap: 8px; }
         .ch-select {
           background: #1a1d2e;
@@ -57,7 +77,6 @@ export default function ChapterReader({ data, relatedSeries }) {
         }
         .ch-select:focus { outline: none; border-color: #7c3aed; }
 
-        /* Prev/Next — right side */
         .ch-nav { display: flex; gap: 8px; align-items: center; }
         .ch-btn {
           display: inline-flex; align-items: center; gap: 5px;
@@ -71,7 +90,6 @@ export default function ChapterReader({ data, relatedSeries }) {
         .ch-btn-next:hover { background: #6d28d9; }
         .ch-btn-disabled { background: #111420; color: #2a2e42; border: 2px solid #1e2235 !important; cursor: not-allowed; }
 
-        /* Back link */
         .ch-back {
           font-size: 12px; color: #7a7f9a; text-decoration: none;
           white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -79,7 +97,6 @@ export default function ChapterReader({ data, relatedSeries }) {
         }
         .ch-back:hover { color: #e8eaf0; }
 
-        /* ── TITLE HEADER ── */
         .reader-header {
           max-width: 800px; margin: 0 auto;
           padding: 24px 16px 16px; text-align: center;
@@ -103,7 +120,6 @@ export default function ChapterReader({ data, relatedSeries }) {
           gap: 10px; margin-top: 14px;
         }
 
-        /* ── PAGES ── */
         .reader-main { background: #0d0e14; min-height: 100vh; }
         .reader-pages { max-width: 800px; margin: 0 auto; }
         .page-img { width: 100%; display: block; opacity: 0; transition: opacity .35s; }
@@ -114,7 +130,6 @@ export default function ChapterReader({ data, relatedSeries }) {
           color: #2a2e42; font-size: 12px;
         }
 
-        /* ── EMPTY STATE ── */
         .reader-empty { padding: 80px 20px; text-align: center; color: #7a7f9a; }
         .reader-empty h2 { font-size: 18px; color: #e8eaf0; margin-bottom: 12px; }
         .reader-empty code {
@@ -122,14 +137,12 @@ export default function ChapterReader({ data, relatedSeries }) {
           border-radius: 4px; color: #7c3aed; font-size: 12px; margin: 8px 0; word-break: break-all;
         }
 
-        /* ── BOTTOM NAV ── */
         .reader-bottom {
           max-width: 900px; margin: 0 auto;
           padding: 28px 16px 16px;
           display: flex; align-items: center; justify-content: space-between; gap: 10px;
         }
 
-        /* ── RELATED SERIES ── */
         .related-wrap {
           max-width: 900px; margin: 0 auto; padding: 0 16px 60px;
         }
@@ -163,7 +176,6 @@ export default function ChapterReader({ data, relatedSeries }) {
         }
         .related-ch { font-size: 11px; color: #7a7f9a; margin-top: 2px; }
 
-        /* ── BACK TO TOP ── */
         .back-top {
           position: fixed; bottom: 24px; right: 18px; z-index: 200;
           width: 42px; height: 42px; border-radius: 50%;
@@ -177,7 +189,6 @@ export default function ChapterReader({ data, relatedSeries }) {
         .back-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
         .back-top:hover { background: #6d28d9; }
 
-        /* ── RESPONSIVE ── */
         @media (max-width: 680px) {
           .ch-back { display: none; }
           .reader-bar-inner { padding: 8px 12px; }
@@ -193,10 +204,7 @@ export default function ChapterReader({ data, relatedSeries }) {
         }
       `}</style>
 
-      {/* ── PAGES ── */}
       <div className="reader-main">
-
-        {/* Title header */}
         <div className="reader-header">
           <h1 className="reader-h1">{series.title} Chapter {chapter.num}{chapter.title ? ` — ${chapter.title}` : ''}</h1>
           <div className="reader-breadcrumb">
@@ -207,7 +215,6 @@ export default function ChapterReader({ data, relatedSeries }) {
             <span style={{ color: '#7a7f9a' }}>Chapter {chapter.num}</span>
           </div>
 
-          {/* Inline nav — chapter select + prev/next */}
           <div className="reader-inline-nav">
             <select
               className="ch-select"
@@ -248,7 +255,7 @@ export default function ChapterReader({ data, relatedSeries }) {
                 : <img
                     key={src}
                     src={src}
-                    alt=""
+                    alt={`${series.title} Chapter ${chapter.num} Page ${i + 1}`}
                     className="page-img"
                     loading={i < 2 ? 'eager' : 'lazy'}
                     decoding="async"
@@ -257,9 +264,8 @@ export default function ChapterReader({ data, relatedSeries }) {
                   />
             ))
           )}
-        </div>{/* end reader-pages */}
+        </div>
 
-        {/* ── BOTTOM NAV — matches top bar layout ── */}
         <div className="reader-bottom">
           <select
             className="ch-select"
@@ -284,7 +290,6 @@ export default function ChapterReader({ data, relatedSeries }) {
           </div>
         </div>
 
-        {/* ── RELATED SERIES ── */}
         {otherSeries.length > 0 && (
           <div className="related-wrap">
             <div className="related-head">Related Series</div>
@@ -307,7 +312,6 @@ export default function ChapterReader({ data, relatedSeries }) {
         )}
       </div>
 
-      {/* ── BACK TO TOP ── */}
       <button
         className={`back-top${showTop ? ' visible' : ''}`}
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -325,5 +329,5 @@ export async function getStaticProps({ params }) {
   const data = getChapter(params.slug, params.chapterNum)
   if (!data) return { notFound: true }
   const relatedSeries = getAllSeries()
-  return { props: { data, relatedSeries }, revalidate: 60 }
+  return { props: { data, relatedSeries } }
 }

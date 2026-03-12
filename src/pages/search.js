@@ -189,7 +189,7 @@ export default function SearchPage({ allSeries }) {
 
           {/* Genre hint tags — always visible */}
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 32 }}>
-            {['Action', 'Fantasy', 'Romance', 'Manhwa', 'Manga', 'Ongoing', 'Completed', 'Martial Arts'].map(tag => (
+            {['Action', 'Fantasy', 'Romance', 'Manhwa', 'Manga', 'Ongoing', 'Completed', 'Hiatus', 'Martial Arts'].map(tag => (
               <button key={tag} onClick={() => clickTag(tag)} style={{
                 background: 'var(--surface)', border: '1px solid var(--border)',
                 color: 'var(--muted)', borderRadius: 20, padding: '5px 14px',

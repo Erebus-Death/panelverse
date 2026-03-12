@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Block legal pages from crawling — no SEO value
+Disallow: /dmca
+Disallow: /privacy
+Disallow: /terms
+
+Sitemap: https://www.thepanelverse.com/sitemap.xml

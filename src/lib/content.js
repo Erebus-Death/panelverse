@@ -13,6 +13,7 @@ import path from 'path'
 import matter from 'gray-matter'
 
 const SERIES_DIR = path.join(process.cwd(), 'content/series')
+const R2_BASE_URL = 'https://pub-e13b23f611944371985db7aa97d5341c.r2.dev'
 
 // ─────────────────────────────────────────────
 // Get all series slugs  (used by getStaticPaths)
@@ -108,7 +109,7 @@ export function getLatestChapters(limit = 12) {
       cover: s.cover,
       genres: s.genres || [],
       num: ch.num,
-      title: ch.title,
+      title: ch.title || null,
       date: ch.date,
     }))
   )
@@ -116,35 +117,47 @@ export function getLatestChapters(limit = 12) {
   // Keep only the latest chapter per series, then sort by date descending
   const latestPerSeries = Object.values(
     flat.reduce((acc, ch) => {
-      if (!acc[ch.seriesSlug] || new Date(ch.date) > new Date(acc[ch.seriesSlug].date)) {
+      const existing = acc[ch.seriesSlug]
+      if (!existing) {
         acc[ch.seriesSlug] = ch
+      } else {
+        const dateDiff = new Date(ch.date) - new Date(existing.date)
+        // If same date, pick highest chapter number
+        if (dateDiff > 0 || (dateDiff === 0 && ch.num > existing.num)) {
+          acc[ch.seriesSlug] = ch
+        }
       }
       return acc
     }, {})
   )
 
   return latestPerSeries
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .sort((a, b) => {
+      const dateDiff = new Date(b.date) - new Date(a.date)
+      if (dateDiff !== 0) return dateDiff
+      return b.num - a.num // same date → highest chapter first
+    })
     .slice(0, limit)
 }
 
 // ─────────────────────────────────────────────
 // Get one chapter's page image list
-// Images must be named: 001.jpg, 002.jpg ... in
-// public/images/[slug]/ch[num padded]/
-// e.g.  public/images/overpowered-hero/ch01/001.jpg
+// Serves images from Cloudflare R2
+// e.g. https://pub-xxx.r2.dev/solo-leveling/ch001/001.webp
 // ─────────────────────────────────────────────
 export function getChapterPages(slug, num) {
-  const paddedNum = String(num).padStart(2, '0')
-  const dir = path.join(process.cwd(), 'public', 'images', slug, `ch${paddedNum}`)
+  const paddedNum = String(num).padStart(3, '0')
+  const chapterKey = `ch${paddedNum}`
 
-  if (!fs.existsSync(dir)) return []
+  // Read page count from index.md chapters data
+  const series = getSeries(slug)
+  const chapter = series.chapters.find(c => c.num === Number(num))
+  if (!chapter || !chapter.pages) return []
 
-  return fs
-    .readdirSync(dir)
-    .filter((f) => /\.(jpe?g|png|webp)$/i.test(f))
-    .sort()
-    .map((filename) => `/images/${slug}/ch${paddedNum}/${filename}`)
+  return Array.from({ length: chapter.pages }, (_, i) => {
+    const page = String(i + 1).padStart(3, '0')
+    return `${R2_BASE_URL}/${slug}/${chapterKey}/${page}.webp`
+  })
 }
 
 // ─────────────────────────────────────────────

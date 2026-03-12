@@ -3,6 +3,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getAllSeriesSlugs, getSeries, formatDate } from '../../../lib/content'
 
+const SITE_URL = 'https://www.thepanelverse.com'
+
 export default function SeriesPage({ series }) {
   if (!series) return (
     <div className="container" style={{padding:'60px 20px',color:'var(--muted)'}}>
@@ -17,14 +19,50 @@ export default function SeriesPage({ series }) {
 
   const firstChapter = chapters[0]
   const latestChapter = chapters.at(-1)
+  const pageUrl = `${SITE_URL}/series/${slug}`
+  const metaDesc = description
+    ? description.slice(0, 155)
+    : `Read ${title} manga/manhwa online for free on PanelVerse. ${chapters.length} chapters available.`
 
   return (
     <>
       <Head>
         <title>{title} — PanelVerse</title>
-        <meta name="description" content={description?.slice(0, 155)} />
-        <meta property="og:title" content={title} />
+        <meta name="description" content={metaDesc} />
+        <link rel="canonical" href={pageUrl} />
+
+        {/* Open Graph */}
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:type" content="book" />
+        <meta property="og:title" content={`${title} — PanelVerse`} />
+        <meta property="og:description" content={metaDesc} />
         {cover && <meta property="og:image" content={cover} />}
+
+        {/* Twitter */}
+        <meta name="twitter:title" content={`${title} — PanelVerse`} />
+        <meta name="twitter:description" content={metaDesc} />
+        {cover && <meta name="twitter:image" content={cover} />}
+
+        {/* Structured data — helps Google understand this is a comic/book series */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Book",
+            "name": title,
+            "author": author ? { "@type": "Person", "name": author } : undefined,
+            "genre": genres,
+            "url": pageUrl,
+            "image": cover || undefined,
+            "numberOfPages": chapters.length,
+            "inLanguage": "en",
+            "publisher": {
+              "@type": "Organization",
+              "name": "PanelVerse",
+              "url": SITE_URL
+            }
+          })}}
+        />
       </Head>
 
       <div className="container">
@@ -56,7 +94,7 @@ export default function SeriesPage({ series }) {
             </div>
             <div style={{display:'flex',gap:'6px',flexWrap:'wrap',marginBottom:'14px',alignItems:'center'}}>
               <span className={`card-status status-${status}`} style={{position:'static',fontSize:'11px',padding:'3px 8px'}}>
-                {status === 'ongoing' ? 'Ongoing' : 'Completed'}
+                {status === "ongoing" ? "Ongoing" : status === "hiatus" ? "Hiatus" : "Completed"}
               </span>
               {genres.map(g => <span key={g} className="tag">{g}</span>)}
             </div>

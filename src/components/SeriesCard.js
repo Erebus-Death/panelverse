@@ -19,7 +19,7 @@ export default function SeriesCard({ series }) {
           </div>
         )}
         <span className={`card-status status-${status}`}>
-          {status === 'ongoing' ? 'Ongoing' : 'Completed'}
+          {status === 'ongoing' ? 'Ongoing' : status === 'hiatus' ? 'Hiatus' : 'Completed'}
         </span>
         {latestCh && <div className="card-ch">Ch. {latestCh.num}</div>}
       </div>
