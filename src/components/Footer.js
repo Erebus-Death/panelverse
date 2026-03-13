@@ -9,7 +9,7 @@ export default function Footer() {
           <p>Read manga and manhwa for free. New chapters added regularly.</p>
         </div>
         <div className="footer-col">
-          <h4>Navigate</h4>
+          <p className="footer-col-title">Navigate</p>
           <ul>
             <li><Link href="/">Home</Link></li>
             <li><Link href="/series">All Series</Link></li>
@@ -17,7 +17,7 @@ export default function Footer() {
           </ul>
         </div>
         <div className="footer-col">
-          <h4>Info</h4>
+          <p className="footer-col-title">Info</p>
           <ul>
             <li><Link href="/dmca">DMCA</Link></li>
             <li><Link href="/privacy">Privacy Policy</Link></li>
@@ -26,7 +26,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} PanelVerse. All rights reserved.</span>
+        <span suppressHydrationWarning>© {new Date().getFullYear()} PanelVerse. All rights reserved.</span>
         <div className="footer-links">
           <Link href="/privacy">Privacy</Link>
           <Link href="/terms">Terms</Link>
