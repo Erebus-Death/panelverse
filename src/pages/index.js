@@ -1,10 +1,34 @@
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import HeroBanner from '../components/HeroBanner'
 import SeriesCard from '../components/SeriesCard'
-import { getAllSeries, getLatestChapters, getFeaturedSeries, timeAgo } from '../lib/content'
+import { getAllSeries, getLatestChapters, getFeaturedSeries } from '../lib/content'
 
 const SITE_URL = 'https://www.thepanelverse.com'
+
+function UpdateMeta({ date }) {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+  if (!mounted) return <span style={{ fontSize: 13, color: 'var(--muted)' }}>...</span>
+  const diff = Date.now() - new Date(date).getTime()
+  const isRecent = diff < 3 * 24 * 60 * 60 * 1000
+  const mins = Math.floor(diff / 60000)
+  const hrs = Math.floor(mins / 60)
+  const days = Math.floor(hrs / 24)
+  let timeStr
+  if (mins < 60) timeStr = `${mins}m ago`
+  else if (hrs < 24) timeStr = `${hrs}h ago`
+  else if (days === 1) timeStr = 'Yesterday'
+  else if (days < 7) timeStr = `${days} days ago`
+  else timeStr = new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  return (
+    <>
+      {isRecent && <span className="badge-new">New</span>}
+      <span>{timeStr}</span>
+    </>
+  )
+}
 
 export default function Home({ allSeries, latestChapters, featuredSeries }) {
   return (
@@ -13,19 +37,13 @@ export default function Home({ allSeries, latestChapters, featuredSeries }) {
         <title>PanelVerse — Read Manga & Manhwa Free</title>
         <meta name="description" content={`Read the best manga and manhwa online for free. ${allSeries.length} series including Solo Leveling, Nano Machine, and more. New chapters added regularly.`} />
         <link rel="canonical" href={SITE_URL} />
-
-        {/* Open Graph */}
         <meta property="og:url" content={SITE_URL} />
         <meta property="og:title" content="PanelVerse — Read Manga & Manhwa Free" />
         <meta property="og:description" content={`Read the best manga and manhwa online for free. ${allSeries.length} series available. New chapters added regularly.`} />
         <meta property="og:image" content={`${SITE_URL}/og-image.png`} />
-
-        {/* Twitter */}
         <meta name="twitter:title" content="PanelVerse — Read Manga & Manhwa Free" />
         <meta name="twitter:description" content={`Read the best manga and manhwa online for free. ${allSeries.length} series available.`} />
         <meta name="twitter:image" content={`${SITE_URL}/og-image.png`} />
-
-        {/* Structured data — Sitelinks searchbox for Google */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify({
@@ -45,7 +63,6 @@ export default function Home({ allSeries, latestChapters, featuredSeries }) {
       {featuredSeries.length > 0 && <HeroBanner series={featuredSeries} />}
 
       <div className="container">
-
         <div className="section">
           <div className="section-head">
             <div className="section-title">Latest Updates</div>
@@ -54,38 +71,37 @@ export default function Home({ allSeries, latestChapters, featuredSeries }) {
           <div className="updates-grid">
             {latestChapters.map((ch) => (
               <div key={`${ch.seriesSlug}-${ch.num}`} className="update-row">
-                <Link href={`/series/${ch.seriesSlug}`} style={{ flexShrink:0 }}>
+                <Link href={`/series/${ch.seriesSlug}`} style={{ flexShrink: 0 }}>
                   {ch.cover ? (
                     <img src={ch.cover} alt={ch.seriesTitle}
-                      style={{ width:'80px', height:'112px', borderRadius:'6px', objectFit:'cover', display:'block' }} />
+                      style={{ width: '80px', height: '112px', borderRadius: '6px', objectFit: 'cover', display: 'block' }} />
                   ) : (
                     <div style={{
-                      width:'80px', height:'112px', borderRadius:'6px',
-                      background:'var(--surface2)', display:'flex', alignItems:'center',
-                      justifyContent:'center', fontSize:'10px', fontWeight:700, color:'rgba(255,255,255,.35)',
+                      width: '80px', height: '112px', borderRadius: '6px',
+                      background: 'var(--surface2)', display: 'flex', alignItems: 'center',
+                      justifyContent: 'center', fontSize: '10px', fontWeight: 700, color: 'rgba(255,255,255,.35)',
                     }}>
-                      {ch.seriesTitle.slice(0,2).toUpperCase()}
+                      {ch.seriesTitle.slice(0, 2).toUpperCase()}
                     </div>
                   )}
                 </Link>
                 <div className="ur-info">
                   <div className="ur-title">
-                    <Link href={`/series/${ch.seriesSlug}`} style={{ textDecoration:'none', color:'var(--text)' }}>
+                    <Link href={`/series/${ch.seriesSlug}`} style={{ textDecoration: 'none', color: 'var(--text)' }}>
                       {ch.seriesTitle}
                     </Link>
-                    <Link href={`/series/${ch.seriesSlug}/chapter/${ch.num}`} style={{ textDecoration:'none', color:'var(--accent)', fontWeight:500, fontSize:'14px' }}>
+                    <Link href={`/series/${ch.seriesSlug}/chapter/${ch.num}`} style={{ textDecoration: 'none', color: 'var(--accent)', fontWeight: 500, fontSize: '14px' }}>
                       Chapter {ch.num}{ch.title ? ` — ${ch.title}` : ''}
                     </Link>
                   </div>
                   <div className="ur-meta">
-                    {isRecent(ch.date) && <span className="badge-new">New</span>}
-                    <span>{timeAgo(ch.date)}</span>
+                    <UpdateMeta date={ch.date} />
                   </div>
                 </div>
               </div>
             ))}
             {latestChapters.length === 0 && (
-              <div style={{ color:'var(--muted)', padding:'24px', gridColumn:'1/-1' }}>No chapters yet.</div>
+              <div style={{ color: 'var(--muted)', padding: '24px', gridColumn: '1/-1' }}>No chapters yet.</div>
             )}
           </div>
         </div>
@@ -100,10 +116,9 @@ export default function Home({ allSeries, latestChapters, featuredSeries }) {
               {allSeries.map(s => <SeriesCard key={s.slug} series={s} />)}
             </div>
           ) : (
-            <div style={{ color:'var(--muted)', padding:'24px' }}>No series added yet.</div>
+            <div style={{ color: 'var(--muted)', padding: '24px' }}>No series added yet.</div>
           )}
         </div>
-
       </div>
     </>
   )
@@ -114,9 +129,4 @@ export async function getStaticProps() {
   const latestChapters = getLatestChapters(12)
   const featuredSeries = getFeaturedSeries()
   return { props: { allSeries, latestChapters, featuredSeries } }
-}
-
-function isRecent(dateStr) {
-  if (typeof window === 'undefined') return false
-  return Date.now() - new Date(dateStr).getTime() < 3 * 24 * 60 * 60 * 1000
 }

@@ -9,7 +9,7 @@ export default function Terms() {
       </Head>
       <div className="container" style={{ maxWidth: 760, padding: '40px 20px' }}>
         <h1 style={{ fontSize: 26, fontWeight: 800, marginBottom: 8 }}>Terms of Service</h1>
-        <p style={{ color: 'var(--muted)', fontSize: 13, marginBottom: 32 }}>Last updated: {new Date().getFullYear()}</p>
+        <p style={{ color: 'var(--muted)', fontSize: 13, marginBottom: 32 }}>Last updated: {2026}</p>
 
         <section style={{ marginBottom: 28 }}>
           <h2 style={{ fontSize: 16, fontWeight: 700, marginBottom: 10 }}>Use of the Site</h2>

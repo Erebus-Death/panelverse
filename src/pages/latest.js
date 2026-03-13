@@ -1,10 +1,29 @@
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { getLatestChapters, timeAgo } from '../lib/content'
+import { getLatestChapters } from '../lib/content'
 
-function isRecent(dateStr) {
-  if (!dateStr || typeof window === 'undefined') return false
-  return (Date.now() - new Date(dateStr).getTime()) < 7 * 24 * 60 * 60 * 1000
+function UpdateMeta({ date }) {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+  if (!mounted) return <span style={{ fontSize: 13, color: 'var(--muted)' }}>...</span>
+  const diff = Date.now() - new Date(date).getTime()
+  const isRecent = diff < 7 * 24 * 60 * 60 * 1000
+  const mins = Math.floor(diff / 60000)
+  const hrs = Math.floor(mins / 60)
+  const days = Math.floor(hrs / 24)
+  let timeStr
+  if (mins < 60) timeStr = `${mins}m ago`
+  else if (hrs < 24) timeStr = `${hrs}h ago`
+  else if (days === 1) timeStr = 'Yesterday'
+  else if (days < 7) timeStr = `${days} days ago`
+  else timeStr = new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  return (
+    <>
+      {isRecent && <span className="badge-new">New</span>}
+      <span>{timeStr}</span>
+    </>
+  )
 }
 
 export default function Latest({ chapters }) {
@@ -23,33 +42,32 @@ export default function Latest({ chapters }) {
                   <Link href={`/series/${ch.seriesSlug}`} style={{ flexShrink: 0 }}>
                     {ch.cover ? (
                       <img src={ch.cover} alt={ch.seriesTitle}
-                        style={{ width:'80px', height:'112px', borderRadius:'6px', objectFit:'cover', display:'block' }} />
+                        style={{ width: '80px', height: '112px', borderRadius: '6px', objectFit: 'cover', display: 'block' }} />
                     ) : (
                       <div style={{
-                        width:'80px', height:'112px', borderRadius:'6px', flexShrink:0,
-                        background:'#1a1d2e', display:'flex', alignItems:'center',
-                        justifyContent:'center', fontSize:'14px', fontWeight:800, color:'rgba(255,255,255,.25)'
+                        width: '80px', height: '112px', borderRadius: '6px', flexShrink: 0,
+                        background: '#1a1d2e', display: 'flex', alignItems: 'center',
+                        justifyContent: 'center', fontSize: '14px', fontWeight: 800, color: 'rgba(255,255,255,.25)'
                       }}>
-                        {ch.seriesTitle.slice(0,2).toUpperCase()}
+                        {ch.seriesTitle.slice(0, 2).toUpperCase()}
                       </div>
                     )}
                   </Link>
                   <div className="ur-info">
-                    <Link href={`/series/${ch.seriesSlug}`} style={{ textDecoration:'none', color:'var(--text)' }}>
-                      <div className="ur-title" style={{ fontWeight:700, marginBottom:4 }}>{ch.seriesTitle}</div>
+                    <Link href={`/series/${ch.seriesSlug}`} style={{ textDecoration: 'none', color: 'var(--text)' }}>
+                      <div className="ur-title" style={{ fontWeight: 700, marginBottom: 4 }}>{ch.seriesTitle}</div>
                     </Link>
-                    <Link href={`/series/${ch.seriesSlug}/chapter/${ch.num}`} style={{ textDecoration:'none' }}>
+                    <Link href={`/series/${ch.seriesSlug}/chapter/${ch.num}`} style={{ textDecoration: 'none' }}>
                       <div className="ur-ch">Chapter {ch.num}{ch.title ? ` — ${ch.title}` : ''}</div>
                     </Link>
                     <div className="ur-meta">
-                      {isRecent(ch.date) && <span className="badge-new">New</span>}
-                      <span>{timeAgo(ch.date)}</span>
+                      <UpdateMeta date={ch.date} />
                     </div>
                   </div>
                 </div>
               ))}
               {chapters.length === 0 && (
-                <div style={{ color:'var(--muted)', padding:'24px' }}>No chapters yet.</div>
+                <div style={{ color: 'var(--muted)', padding: '24px' }}>No chapters yet.</div>
               )}
             </div>
           </div>
