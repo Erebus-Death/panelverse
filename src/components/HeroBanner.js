@@ -204,10 +204,10 @@ export default function HeroBanner({ series }) {
       `}</style>
 
       <div className="hero-wrapper" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
-        {s.cover && <div className="hero-bg" style={{ backgroundImage: `url(${s.cover})` }} />}
+        {s.cover && <div className="hero-bg" style={{ backgroundImage: `url(${s.cover})` }} suppressHydrationWarning />}
         <div className="hero-overlay" />
 
-        <div className="hero-content" style={{ opacity: fade ? 1 : 0, transition: 'opacity 0.25s ease' }}>
+        <div className="hero-content" style={{ opacity: fade ? 1 : 0, transition: 'opacity 0.25s ease' }} suppressHydrationWarning>
           <div className="hero-left">
             <div className="hero-type">{s.type?.toUpperCase() || 'MANHWA'}</div>
             <Link href={`/series/${s.slug}`}><h2 className="hero-title" style={{cursor:"pointer"}}>{s.title}</h2></Link>
