@@ -34,7 +34,7 @@ export default function Home({ allSeries, latestChapters, featuredSeries }) {
   return (
     <>
       <Head>
-        <title>PanelVerse — Read Manga & Manhwa Free</title>
+        <title>PanelVerse — Read Manga & Manhwa Free Online</title>
         <meta name="description" content={`Read the best manga and manhwa online for free. ${allSeries.length} series including Solo Leveling, Nano Machine, and more. New chapters added regularly.`} />
         <link rel="canonical" href={SITE_URL} />
         <meta property="og:url" content={SITE_URL} />
@@ -61,6 +61,9 @@ export default function Home({ allSeries, latestChapters, featuredSeries }) {
       </Head>
 
       {featuredSeries.length > 0 && <HeroBanner series={featuredSeries} />}
+      <h1 style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0,0,0,0)' }}>
+  Read Manga and Manhwa Online Free — PanelVerse
+</h1>
 
       <div className="container">
         <div className="section">
