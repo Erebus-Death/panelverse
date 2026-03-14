@@ -1,6 +1,6 @@
 ---
 title: "The Legend of the Northern Blade"
-slug: "the-legend-of-the-northern-blade"
+slug: "legend-of-the-northern-blade"
 author: "Woogack (우각)"
 artist: "Hae Min (해민)"
 genres:
@@ -16,7 +16,7 @@ rating: 8.58
 reviewCount: 22812
 views: "8.4M"
 featured: true
-cover: "/covers/the-legend-of-the-northern-blade.jpg"
+cover: "/covers/legend-of-the-northern-blade.webp"
 description: "Jin Mu-Won, the son of the disbanded Northern Heavenly Sect's fourth leader, lives a dreary life under surveillance after his father was forced to commit suicide on false charges. When a surprise attack gives him a chance to escape to the mountains, he trains in secret to master his predecessors' techniques. Years later, the disappearance of a loved one forces him to return to the mainland, where he embarks on a journey to avenge his father's death, restore his sect's honor, and confront the villains threatening to plunge the world into darkness."
 chapters:
   - num: 1
