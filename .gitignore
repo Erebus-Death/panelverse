@@ -6,3 +6,7 @@ out/
 .DS_Store
 public/images/
 public/images/
+fix_images.sh
+update_chapters.py
+compress_cover_img.sh
+fix_series.py
