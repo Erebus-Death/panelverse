@@ -1,6 +1,6 @@
 """
 PanelVerse — Chapter Update Checker
-Checks MangaDex, Asura Scans, King of Shojo, and Flame Comics
+Checks MangaDex, Asura Scans, King of Shojo, Flame Comics, and Vortex Scans
 for new chapters across all your series.
 
 Usage:
@@ -20,89 +20,122 @@ from bs4 import BeautifulSoup
 CONTENT_DIR = os.path.expanduser("~/Desktop/panelverse/content/series")
 
 # ─────────────────────────────────────────────
-# CONFIG — Add your series here
-# For each series, add the URLs where it's available
-# Leave a source as None if the series isn't on that site
+# CONFIG — All your series with actual URLs
 # ─────────────────────────────────────────────
 SERIES_MAP = {
-    "solo-leveling": {
-        "mangadex": "32d76d19-8a05-4db0-9fc2-e0b0648fe9d0",
+    "legend-of-the-northern-blade": {
+        "mangadex": None,
         "asura": None,
         "kingofshojo": None,
         "flamecomics": None,
+        "vortex": "https://vortexscans.org/series/the-legend-of-the-northern-blade-fqe4tt3q",
     },
+    "i-was-more-overpowered-than-the-hero": {
+    "mangadex": None,
+    "asura": None,
+    "kingofshojo": "https://kingofshojo.com/manga/i-was-more-overpowered-than-the-hero-so-i-hid-my-power/",
+    "flamecomics": None,
+    "vortex": None,
+},
     "nano-machine": {
-        "mangadex": "a3617a4d-af3a-4d56-8e87-b6d87a46b8c4",
-        "asura": None,
+        "mangadex": "a3617a4d-af3a-4d56-8e87-b6d87a46b8c4",  # Keeping MangaDex as backup
+        "asura": "https://asuracomic.net/series/nano-machine-98f69633",
         "kingofshojo": None,
         "flamecomics": None,
-    },
-    "return-of-mount-hua-sect": {
-        "mangadex": "a96676e5-8ae2-425e-b549-7f15dd34a6d8",
-        "asura": None,
-        "kingofshojo": None,
-        "flamecomics": None,
-    },
-    "i-was-more-overpowered-than-hero": {
-        "mangadex": None,
-        "asura": "https://asuracomic.net/series/PUT-SLUG-HERE",
-        "kingofshojo": None,
-        "flamecomics": None,
-    },
-    "devourer-please-act-like-final-boss": {
-        "mangadex": None,
-        "asura": "https://asuracomic.net/series/PUT-SLUG-HERE",
-        "kingofshojo": None,
-        "flamecomics": None,
-    },
-    "myst-might-mayhem": {
-        "mangadex": None,
-        "asura": None,
-        "kingofshojo": "https://kingofshojo.com/manga/PUT-SLUG-HERE",
-        "flamecomics": None,
-    },
-    "reaper-of-the-moon": {
-        "mangadex": None,
-        "asura": None,
-        "kingofshojo": None,
-        "flamecomics": "https://flamecomics.xyz/series/PUT-SLUG-HERE",
-    },
-    "sss-class-sucide-hunter": {
-        "mangadex": None,
-        "asura": "https://asuracomic.net/series/PUT-SLUG-HERE",
-        "kingofshojo": None,
-        "flamecomics": None,
+        "vortex": None,
     },
     "the-extras-academy-survival-guide": {
         "mangadex": None,
-        "asura": "https://asuracomic.net/series/PUT-SLUG-HERE",
+        "asura": "https://asuracomic.net/series/the-extras-academy-survival-guide-a443ab69",
         "kingofshojo": None,
         "flamecomics": None,
+        "vortex": None,
     },
-    "the-greatest-estate-developer": {
+    "the-academys-sashimi-sword-master": {
         "mangadex": None,
-        "asura": "https://asuracomic.net/series/PUT-SLUG-HERE",
+        "asura": "https://asuracomic.net/series/the-academys-sashimi-sword-master-c2f69b37",
         "kingofshojo": None,
         "flamecomics": None,
-    },
-    "the-novels-extra": {
-        "mangadex": None,
-        "asura": "https://asuracomic.net/series/PUT-SLUG-HERE",
-        "kingofshojo": None,
-        "flamecomics": None,
+        "vortex": None,
     },
     "return-of-the-disaster-class-hero": {
         "mangadex": None,
-        "asura": None,
-        "kingofshojo": "https://kingofshojo.com/manga/PUT-SLUG-HERE",
-        "flamecomics": None,
-    },
-    "the-academy-sashimi-sword-master": {
-        "mangadex": None,
-        "asura": None,
+        "asura": "https://asuracomic.net/series/return-of-the-disaster-class-hero-0b8c088b",
         "kingofshojo": None,
-        "flamecomics": "https://flamecomics.xyz/series/PUT-SLUG-HERE",
+        "flamecomics": None,
+        "vortex": None,
     },
+    "myst-might-mayhem": {
+        "mangadex": None,
+        "asura": "https://asuracomic.net/series/myst-might-mayhem-a22d25e1",
+        "kingofshojo": None,
+        "flamecomics": None,
+        "vortex": None,
+    },
+    "omniscient-readers-viewpoint": {
+        "mangadex": None,
+        "asura": "https://asuracomic.net/series/omniscient-readers-viewpoint-738a9f43",
+        "kingofshojo": None,
+        "flamecomics": None,
+        "vortex": None,
+    },
+    "reaper-of-the-drifting-moon": {
+        "mangadex": None,
+        "asura": "https://asuracomic.net/series/reaper-of-the-drifting-moon-24527359",
+        "kingofshojo": None,
+        "flamecomics": None,
+        "vortex": None,
+    },
+    "the-novels-extra-remake": {
+        "mangadex": None,
+        "asura": "https://asuracomic.net/series/the-novels-extra-remake-01b94459",
+        "kingofshojo": None,
+        "flamecomics": None,
+        "vortex": None,
+    },
+    "mr-devourer-please-act-like-a-final-boss": {
+        "mangadex": None,
+        "asura": "https://asuracomic.net/series/mr-devourer-please-act-like-a-final-boss-5e5efd0d",
+        "kingofshojo": None,
+        "flamecomics": None,
+        "vortex": None,
+    },
+    "return-of-the-mount-hua-sect": {
+        "mangadex": "a96676e5-8ae2-425e-b549-7f15dd34a6d8",  # Keeping MangaDex as backup
+        "asura": "https://asuracomic.net/series/return-of-the-mount-hua-sect-5ed1ce70",
+        "kingofshojo": None,
+        "flamecomics": None,
+        "vortex": None,
+    },
+    "solo-leveling": {
+        "mangadex": "32d76d19-8a05-4db0-9fc2-e0b0648fe9d0",  # Keeping MangaDex as backup
+        "asura": "https://asuracomic.net/series/solo-leveling-3454908e",
+        "kingofshojo": None,
+        "flamecomics": None,
+        "vortex": None,
+    },
+    "sss-class-suicide-hunter": {
+        "mangadex": None,
+        "asura": "https://asuracomic.net/series/sss-class-suicide-hunter-cb0d4822",
+        "kingofshojo": None,
+        "flamecomics": None,
+        "vortex": None,
+    },
+    "the-greatest-estate-developer": {
+        "mangadex": None,
+        "asura": "https://asuracomic.net/series/the-greatest-estate-developer-5997215b",
+        "kingofshojo": None,
+        "flamecomics": None,
+        "vortex": None,
+    },
+    # Thunder Scans series - currently commented out due to 403 error
+    # "i-was-more-overpowered-than-the-hero": {
+    #     "mangadex": None,
+    #     "asura": None,
+    #     "kingofshojo": None,
+    #     "flamecomics": None,
+    #     "thunder": "https://en-thunderscans.com/comics/i-was-more-overpowered-than-the-hero-so-i-held-my-power/",
+    # },
 }
 
 HEADERS = {
@@ -202,6 +235,32 @@ def check_flamecomics(url):
         return None
 
 # ─────────────────────────────────────────────
+# NEW: Vortex Scans scraper
+# ─────────────────────────────────────────────
+def check_vortex(url):
+    try:
+        res = requests.get(url, headers=HEADERS, timeout=10)
+        res.raise_for_status()
+        soup = BeautifulSoup(res.text, "html.parser")
+        
+        # Try different possible selectors for Vortex Scans
+        chapters = soup.select("li.chapter-item a, ul.chapter-list a, .chapter-link, a[href*='/chapter/']")
+        
+        if not chapters:
+            # Fallback: look for chapter numbers in text
+            text = soup.get_text()
+            nums = re.findall(r'[Cc]hapter\s+(\d+)', text)
+            return max(int(n) for n in nums) if nums else None
+            
+        # Get the first (latest) chapter
+        text = chapters[0].get_text()
+        match = re.search(r'(\d+)', text)
+        return int(match.group(1)) if match else None
+    except Exception as e:
+        print(f"Vortex error: {e}")
+        return None
+
+# ─────────────────────────────────────────────
 # Check a single series across all sources
 # ─────────────────────────────────────────────
 def check_series(slug, sources):
@@ -212,30 +271,41 @@ def check_series(slug, sources):
     remote = None
     source_used = None
 
+    # Check each source in priority order (you can change this)
     if sources.get("mangadex"):
         r = check_mangadex(sources["mangadex"])
         if r and (remote is None or r > remote):
             remote = r
             source_used = "MangaDex"
-        time.sleep(0.3)  # be polite to MangaDex API
+        time.sleep(0.3)
 
-    if sources.get("asura") and "PUT-SLUG-HERE" not in sources["asura"]:
+    if sources.get("asura") and sources["asura"]:
         r = check_asura(sources["asura"])
         if r and (remote is None or r > remote):
             remote = r
             source_used = "Asura"
+        time.sleep(0.5)
 
-    if sources.get("kingofshojo") and "PUT-SLUG-HERE" not in sources["kingofshojo"]:
+    if sources.get("vortex") and sources["vortex"]:
+        r = check_vortex(sources["vortex"])
+        if r and (remote is None or r > remote):
+            remote = r
+            source_used = "Vortex"
+        time.sleep(0.5)
+
+    if sources.get("kingofshojo") and sources["kingofshojo"]:
         r = check_kingofshojo(sources["kingofshojo"])
         if r and (remote is None or r > remote):
             remote = r
             source_used = "KingOfShojo"
+        time.sleep(0.5)
 
-    if sources.get("flamecomics") and "PUT-SLUG-HERE" not in sources["flamecomics"]:
+    if sources.get("flamecomics") and sources["flamecomics"]:
         r = check_flamecomics(sources["flamecomics"])
         if r and (remote is None or r > remote):
             remote = r
             source_used = "FlameComics"
+        time.sleep(0.5)
 
     return local, remote, source_used
 
@@ -252,8 +322,13 @@ def main():
 
     for slug, sources in SERIES_MAP.items():
         # Skip if no sources configured
-        all_none = all(v is None or "PUT-SLUG-HERE" in str(v) for v in sources.values())
-        if all_none:
+        has_valid_source = False
+        for source, url in sources.items():
+            if url and isinstance(url, str) and url.startswith("http"):
+                has_valid_source = True
+                break
+        
+        if not has_valid_source:
             skipped.append(slug)
             print(f"  ⏭  {slug} — no sources configured")
             continue
