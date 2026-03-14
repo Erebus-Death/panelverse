@@ -15,7 +15,7 @@ year: 2020
 rating: 8.32
 reviewCount: 22801
 views: "12.8M"
-featured: true
+featured: false
 cover: "/covers/sss-class-sucide-hunter.webp"
 description: "Kim Gong-Ja, an F-rank hunter with no skills, envies the powerful hunters who received abilities from the Tower. When his intense jealousy finally grants him an S-rank skill, he discovers it only activates when he dies. Killed by the legendary Flame Emperor, he gains the power to rewind time 24 hours upon death—and now he'll use it to become the greatest hunter of all."
 chapters:

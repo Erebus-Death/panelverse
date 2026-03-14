@@ -134,14 +134,18 @@ export default function HeroBanner({ series }) {
        .hero-dot {
   width: 8px;
   height: 8px;
-  min-width: 24px;
-  min-height: 24px;
   border-radius: 50%;
   background: rgba(255,255,255,.3);
   border: none;
   cursor: pointer;
-  padding: 8px;
-  box-sizing: content-box;
+  padding: 0;
+  position: relative;
+  flex-shrink: 0;
+}
+.hero-dot::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
 }
         .hero-dot.active { width: 20px; background: #7c3aed; }
 

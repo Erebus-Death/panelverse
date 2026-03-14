@@ -16,7 +16,7 @@ year: 2022
 rating: 7.8
 reviewCount: 168
 views: "3.2M"
-featured: true
+featured: false
 cover: "/covers/the-novels-extra.webp"
 description: "Kim Hajin, a web novel author suffering from writer's block, suddenly finds himself transported into the very world he created. To make matters worse, he's become nothing more than an extra—a minor character with no importance to the story. With his knowledge of the plot as its creator, he must navigate this dangerous world and survive until the end. But when discrepancies begin appearing in the story he wrote, Hajin realizes things aren't as simple as they seem."
 chapters:
