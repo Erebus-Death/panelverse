@@ -131,22 +131,10 @@ export default function HeroBanner({ series }) {
           transform: translateX(-50%);
           display: flex; gap: 6px; z-index: 10;
         }
-       .hero-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255,255,255,.3);
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  position: relative;
-  flex-shrink: 0;
-}
-.hero-dot::before {
-  content: '';
-  position: absolute;
-  inset: -8px;
-}
+        .hero-dot {
+          height: 6px; border-radius: 3px; border: none; cursor: pointer; padding: 0;
+          transition: width .3s, background .3s; width: 6px; background: rgba(255,255,255,.3);
+        }
         .hero-dot.active { width: 20px; background: #7c3aed; }
 
         /* Swipe hint */

@@ -431,4 +431,5 @@ footer {
   }
 
   /* View all — accent colored */
-.view-all { color: #b388ff; }}
+  .view-all { color: #7c3aed; font-weight: 700; }
+}
