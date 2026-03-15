@@ -9,7 +9,7 @@ genres:
   - Martial Arts
   - Murim
   - Manhwa
-status: "ongoing"
+status: "hiatus"
 type: "manhwa"
 year: 2023
 rating: 8.9

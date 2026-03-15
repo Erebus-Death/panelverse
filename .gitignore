@@ -10,3 +10,10 @@ fix_images.sh
 update_chapters.py
 compress_cover_img.sh
 fix_series.py
+check_gaps.py
+check_index_vs_r2.py
+check_updates.py
+fix_bad_chapters.py
+fix_images.py
+scan_bad_chapters_for_r2.py
+scan_bad_chapters.py
