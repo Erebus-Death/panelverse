@@ -15,7 +15,7 @@ year: 2022
 rating: 7.76
 reviewCount: 5768
 views: "5.9M"
-featured: true
+featured: false
 cover: "/covers/reaper-of-the-moon.webp"
 description: "Pyo Wol, an orphan, wakes up in a dark cell after being kidnapped. He discovers he is one of 300 children being trained to become assassins. Forced to fight and kill the other captives, Wol must survive the brutal training and find a way to escape his captors and exact his revenge."
 chapters:

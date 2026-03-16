@@ -14,7 +14,7 @@ year: 2020
 rating: 8.7
 reviewCount: 3100
 views: "4.2M"
-featured: true
+featured: false
 cover: "/covers/nano-machine.webp"
 description: "Cheon Yeo-Woon, an orphan from the Demonic Cult, has his life turned upside down when a descendant from the future inserts a nano machine into his body. With this technology, he begins his journey to the top of the martial world."
 chapters:

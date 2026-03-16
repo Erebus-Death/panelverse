@@ -15,7 +15,7 @@ year: 2021
 rating: 7.41
 reviewCount: 8476
 views: "8.2M"
-featured: true
+featured: false
 cover: "/covers/return-of-the-disaster-class-hero.webp"
 description: "Twenty years ago, Lee Geon—the unofficial thirteenth saint and Earth's mightiest hero—was betrayed by his twelve allies and left for dead inside the Tower of Demons. Now, after fighting his way out, he has returned more powerful than ever. With his wealth stolen and his name slandered, he's ready to exact brutal revenge on the saints who wronged him and uncover the truth behind his betrayal."
 chapters:

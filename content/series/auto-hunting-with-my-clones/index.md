@@ -15,7 +15,7 @@ year: 2023
 rating: 8.2
 reviewCount: 4200
 views: "3.8M"
-featured: true
+featured: false
 cover: "/covers/auto-hunting-with-my-clones.webp"
 description: "Kim Jin-Hyuk was just an ordinary office worker until the world changed and Hunters emerged to fight monsters in dungeons. Waking up with a unique SSS-rank skill, he discovers he can create clones that continue hunting and leveling up even while he sleeps. Now, with his army of autonomous clones working around the clock, Jin-Hyuk rises through the ranks effortlessly. But as he climbs the hunter ladder, he realizes his power comes with consequences—and not everyone is happy about an 'auto-hunter' disrupting the balance of power."
 chapters:

@@ -15,7 +15,7 @@ year: 2023
 rating: 8.25
 reviewCount: 8523
 views: "2.4M"
-featured: true
+featured: false
 cover: "/covers/the-extras-academy-survival-guide.webp"
 description: "Ed Rothstaylor is a third-rate villain in a game, disowned by his family and kicked out of his dormitory. When a modern Korean man wakes up as this character, he realizes he must earn a scholarship to survive. Now living in the woods, he resolves to avoid the protagonists, but four female leads just won't leave him alone—and his presence starts changing the game's events."
 chapters:

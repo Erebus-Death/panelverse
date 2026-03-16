@@ -15,7 +15,7 @@ year: 2018
 rating: 8.6
 reviewCount: 81437
 views: "36.1M"
-featured: true
+featured: false
 cover: "/covers/the-begining-after-the-end.webp"
 description: "King Grey was a powerful ruler, but his life was filled with loneliness and regret. When he dies mysteriously, he is reborn as Arthur Leywin in a vibrant world of magic and mythical creatures. Retaining the wisdom of his past life, Arthur must navigate his new existence, master powerful spells, and protect those he loves. But as war brews between Dicathen and the Vritra Clan, Arthur discovers that he was not the only one who reincarnated—and his second chance at life may come with an even greater destiny."
 chapters:

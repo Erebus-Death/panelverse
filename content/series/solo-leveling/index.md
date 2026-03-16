@@ -14,7 +14,7 @@ year: 2018
 rating: 9.4
 reviewCount: 8200
 views: "12.4M"
-featured: true
+featured: false
 cover: "/covers/solo-leveling.webp"
 description: "In a world where hunters with special abilities must battle deadly monsters to protect humanity, Sung Jinwoo is the weakest hunter alive. After surviving a brutal double dungeon, he gains access to a mysterious leveling system only he can see."
 chapters:
