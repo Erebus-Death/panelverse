@@ -7,16 +7,19 @@ import { getAllSeries } from '../lib/content'
 const SITE_URL = 'https://www.thepanelverse.com'
 
 function generateSitemap(allSeries) {
+  const today = new Date().toISOString().split('T')[0]
+
   const staticPages = [
-    { url: SITE_URL, priority: '1.0', changefreq: 'daily' },
-    { url: `${SITE_URL}/series`, priority: '0.9', changefreq: 'daily' },
-    { url: `${SITE_URL}/latest`, priority: '0.9', changefreq: 'daily' },
+    { url: SITE_URL,                        priority: '1.0', changefreq: 'daily',   lastmod: today },
+    { url: `${SITE_URL}/series`,            priority: '0.9', changefreq: 'daily',   lastmod: today },
+    { url: `${SITE_URL}/latest`,            priority: '0.9', changefreq: 'daily',   lastmod: today },
   ]
 
   const seriesPages = allSeries.map(s => ({
     url: `${SITE_URL}/series/${s.slug}`,
     priority: '0.8',
     changefreq: 'weekly',
+    lastmod: s.chapters?.at(-1)?.date?.split('T')[0] || today,
   }))
 
   const chapterPages = allSeries.flatMap(s =>
@@ -24,6 +27,7 @@ function generateSitemap(allSeries) {
       url: `${SITE_URL}/series/${s.slug}/chapter/${ch.num}`,
       priority: '0.6',
       changefreq: 'monthly',
+      lastmod: ch.date?.split('T')[0] || today,
     }))
   )
 
@@ -33,6 +37,7 @@ function generateSitemap(allSeries) {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${allPages.map(p => `  <url>
     <loc>${p.url}</loc>
+    <lastmod>${p.lastmod}</lastmod>
     <changefreq>${p.changefreq}</changefreq>
     <priority>${p.priority}</priority>
   </url>`).join('\n')}

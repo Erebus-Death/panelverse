@@ -165,9 +165,11 @@ main { width: 100%; min-width: 0; overflow-x: hidden; }
 .status-completed { background: var(--green); color: #061209; }
 .status-hiatus    { background: #ef4444; color: white; }
 .card-ch {
-  position: absolute; bottom: 0; left: 0; right: 0; z-index: 1;
-  background: linear-gradient(transparent, rgba(0,0,0,.85));
-  padding: 16px 8px 6px; font-size: 14px; font-weight: 500; color: #bbb;
+  position: absolute; bottom: 5px; left: 8px; z-index: 1;
+  background: rgba(0,0,0,0.85);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 13px; font-weight: 600; color: #ffffff;
 }
 .card-body { padding: 8px 9px 10px; }
 .card-title {

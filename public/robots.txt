@@ -6,4 +6,8 @@ Disallow: /dmca
 Disallow: /privacy
 Disallow: /terms
 
+# Block Next.js internals
+Disallow: /_next/
+Disallow: /api/
+
 Sitemap: https://www.thepanelverse.com/sitemap.xml
