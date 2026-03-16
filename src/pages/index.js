@@ -35,7 +35,7 @@ export default function Home({ allSeries, latestChapters, featuredSeries }) {
     <>
       <Head>
         <title>PanelVerse — Read Manga & Manhwa Free Online</title>
-        <meta name="description" content={`Read the best manga and manhwa online for free. ${allSeries.length} series including Solo Leveling, Nano Machine, and more. New chapters added regularly.`} />
+        <meta name="description" content={`Read the best manga and manhwa online for free. Browse ${allSeries.length} series including Solo Leveling, Nano Machine, The Beginning After the End, and more. New chapters added regularly. No account needed.`} />
         <link rel="canonical" href={SITE_URL} />
         <meta property="og:url" content={SITE_URL} />
         <meta property="og:title" content="PanelVerse — Read Manga & Manhwa Free" />

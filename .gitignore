@@ -17,3 +17,4 @@ fix_bad_chapters.py
 fix_images.py
 scan_bad_chapters_for_r2.py
 scan_bad_chapters.py
+scan_zero_images.py
