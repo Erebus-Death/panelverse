@@ -217,6 +217,18 @@ chapters:
   - num: 66
     pages: 59
     date: "2026-03-18T20:34:37"
+  - num: 67
+    pages: 62
+    date: "2026-03-19T14:31:34"
+  - num: 68
+    pages: 59
+    date: "2026-03-19T14:31:34"
+  - num: 69
+    pages: 70
+    date: "2026-03-19T14:31:34"
+  - num: 70
+    pages: 74
+    date: "2026-03-19T14:31:34"
   - num: 71
     pages: 69
     date: "2026-03-18T20:34:37"
@@ -259,6 +271,9 @@ chapters:
   - num: 84
     pages: 94
     date: "2026-03-18T20:34:37"
+  - num: 85
+    pages: 93
+    date: "2026-03-19T14:31:34"
   - num: 86
     pages: 100
     date: "2026-03-18T20:34:37"
