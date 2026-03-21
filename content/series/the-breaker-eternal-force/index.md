@@ -15,7 +15,7 @@ year: 2022
 rating: 7.09
 reviewCount: 1338
 views: "2.5M"
-featured: true
+featured: false
 cover: "/covers/the-breaker-eternal-force.webp"
 description: "Haje Kang can't take it anymore. Pushed to the breaking point by relentless bullying, he stands at the edge of the school roof, ready to end it all. But just as he's about to jump, he's given a push—literally—by a mysterious upperclassman named Si-un Lee, only to wake up the next day unscathed. Little does Haje know that Si-un happens to be one of the most powerful martial artists in the Murim, the hidden world of martial arts. Haje begs Si-un to train him, but he never could have imagined just how tumultuous things could get in the martial arts underworld."
 chapters:

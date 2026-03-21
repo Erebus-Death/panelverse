@@ -16,7 +16,7 @@ year: 2017
 rating: 7.67
 reviewCount: 2479
 views: "8.2M"
-featured: true
+featured: false
 cover: "/covers/volcanic-age.webp"
 description: "Joo Seo Cheon, an elder of the Mount Hua Sect, lived a life full of regrets after surviving a devastating war against the Dark Heaven Sect through sheer luck. As he lies on his deathbed waiting for the inevitable, he is miraculously returned to his youth. Armed with decades of knowledge and experience, he seizes every opportunity he once missed to prevent the tragic future. Now training alongside genius disciples and building power across the martial world, he must stop the coming war before it consumes everything."
 chapters:

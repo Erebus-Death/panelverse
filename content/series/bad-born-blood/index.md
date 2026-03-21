@@ -16,7 +16,7 @@ year: 2024
 rating: 7.76
 reviewCount: 1372
 views: "3.2M"
-featured: true
+featured: false
 cover: "/covers/bad-born-blood.webp"
 description: "In a future where humanity has abandoned Earth and interstellar travel is commonplace, Luca—an orphan from the slums—passes the elite selection exam to become a trainee in the Accretian Empire's Imperial Guard. Wielding cutting-edge mechanized prosthetics and driven by unwavering loyalty to the empire, his life takes an unexpected turn when he meets Ilay, a rival from a prestigious family who begins to make him question everything he believes in. As Luca navigates political intrigue, moral dilemmas, and the brutal reality of imperial conquest, he must decide where his true loyalties lie."
 chapters:

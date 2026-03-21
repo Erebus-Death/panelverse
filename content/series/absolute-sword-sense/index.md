@@ -15,7 +15,7 @@ year: 2022
 rating: 7.69
 reviewCount: 3213
 views: "1.2M"
-featured: true
+featured: false
 cover: "/covers/absolute-sword-sense.webp"
 description: "Soh Woonhwi was the black sheep of his family—given up on after his dantian was destroyed and forced to serve as a third-rate spy for the Blood Cult. During a mission to retrieve a legendary sword immortal's secret records, he is killed. But instead of death, he wakes up ten years in the past, on the very day he was kidnapped. Armed with a mysterious new ability that allows him to hear the voices of swords, Woonhwi now has a second chance to change his fate and rise from the ashes of his former life."
 chapters:

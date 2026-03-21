@@ -13,11 +13,10 @@ genres:
   - Fantasy
   - Manhwa
 cover: "/covers/i-was-more-overpowered-than-hero.webp"
-description: >
-  From a young age, I've always dreamed of being that 'unassuming hero' who
+description: "From a young age, I've always dreamed of being that 'unassuming hero' who
   hides his true power. Now reincarnated into a fantasy world, I finally get
   my chance — but keeping a low profile is harder than it sounds when you can
-  one-shot every monster in the kingdom.
+  one-shot every monster in the kingdom."
 chapters:
   - num: 1
     date: "2026-03-09T11:36:28"
