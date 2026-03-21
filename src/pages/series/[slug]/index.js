@@ -129,7 +129,7 @@ export default function SeriesPage({ series }) {
             <div className="section-title">Chapters ({chapters.length})</div>
           </div>
           <div style={{background:'var(--surface)',border:'1px solid var(--border)',borderRadius:'var(--radius)',overflow:'hidden'}}>
-            {[...chapters].reverse().map(ch => (
+           {[...chapters].map(ch => (
               <Link
                 key={ch.num}
                 href={`/series/${slug}/chapter/${ch.num}`}
